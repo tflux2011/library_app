@@ -1,4 +1,4 @@
-package edu.miu;
+package edu.miu.Model;
 
 import java.awt.Color;
 import java.awt.Font;

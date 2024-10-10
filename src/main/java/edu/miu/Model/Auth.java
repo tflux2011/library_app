@@ -1,4 +1,4 @@
-package edu.miu;
+package edu.miu.Model;
 
 public enum Auth {
     LIBRARIAN,

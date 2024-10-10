@@ -1,4 +1,6 @@
-package edu.miu;
+package edu.miu.Model;
+
+import edu.miu.Model.Auth;
 
 public class User {
     public String username;

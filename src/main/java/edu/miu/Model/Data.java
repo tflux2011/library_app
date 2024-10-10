@@ -1,7 +1,9 @@
-package edu.miu;
+package edu.miu.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.miu.Model.Auth;
 
 public class Data {
     public static final Data INSTANCE = new Data();

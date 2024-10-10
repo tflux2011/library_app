@@ -1,5 +1,10 @@
 package edu.miu;
 import javax.swing.*;
+
+import edu.miu.Model.Data;
+import edu.miu.Model.User;
+import edu.miu.Model.Util;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
