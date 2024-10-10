@@ -17,8 +17,8 @@ public class CheckoutEntry {
          }
          
         this.bookCopy = bookCopy;
-        this.checkoutDate = new Date(); // Current date
-        this.dueDate = calculateDueDate(bookCopy.getBook().getMaxCheckoutLength()); // Calculate due date
+        this.checkoutDate = new Date();
+        this.dueDate = calculateDueDate(bookCopy.getBook().getMaxCheckoutLength());
     }
 
     public boolean isOverdue(Date currentDate) {

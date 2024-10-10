@@ -11,7 +11,7 @@ public class Book {
     private int maxCheckoutLength;
     private List<BookCopy> copies;
 
-    public Book(String isbn, String title, int numOfAuthors, List<Author> authors, int maxCheckoutLength) {
+    public Book(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {
     	if (authors == null || authors.isEmpty()) {
     		throw new IllegalArgumentException("A book must have at least one author.");
     	}
@@ -19,12 +19,20 @@ public class Book {
         this.isbn = isbn;
         this.title = title;
         this.authors = new ArrayList<>(authors);
-        this.maxCheckoutLength = maxCheckoutLength; // checkout duration
+        this.maxCheckoutLength = maxCheckoutLength;
         this.copies = new ArrayList<>();
+        for (int i = 0; i < numOfCopies; i++) {
+        	BookCopy copy = new BookCopy(this);
+            copies.add(copy);
+        }
     }
     
     public String getIsbn() {
     	return isbn;
+    }
+    
+    public List<BookCopy> getCopies(){
+    	return Collections.unmodifiableList(copies);
     }
     
     public String getTitle() {
@@ -40,10 +48,8 @@ public class Book {
     	this.authors.add(author);
     }
 
-    public void addCopy(BookCopy copy) {
-    	if (copy == null) {
-            throw new IllegalArgumentException("Cannot add a null book copy.");
-        }
+    public void addCopy() {
+    	BookCopy copy = new BookCopy(this);
         copies.add(copy);
     }
 

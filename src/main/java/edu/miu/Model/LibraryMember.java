@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryMember {
-    private String memberId;
+    private int memberId;
     private String firstName;
     private String lastName;
     private Address address;
     private String phone;
     private CheckoutRecord checkoutRecord;
 
-    public LibraryMember(String memberId, String firstName, String lastName, Address address, String phone) {
+    public LibraryMember(int memberId, String firstName, String lastName, Address address, String phone) {
         this.memberId = memberId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,5 +30,9 @@ public class LibraryMember {
 
     public CheckoutRecord getCheckoutRecord() {
         return checkoutRecord;
+    }
+    
+    public int getMemberId() {
+    	return memberId;
     }
 }

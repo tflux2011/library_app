@@ -1,7 +1,6 @@
 package edu.miu.Model;
 
 public class BookCopy {
-    private static int idCounter = 0;
     private String copyNumber;
     private boolean isAvailable;
     private Book book;
@@ -9,7 +8,8 @@ public class BookCopy {
     public BookCopy(Book book) {
         this.book = book;
         this.isAvailable = true;
-        this.copyNumber = "Loto" + (++idCounter);
+        int newCopyNumber = this.book.getCopies().size() + 1;
+        this.copyNumber = "Loto" + newCopyNumber;
     }
 
     public boolean isAvailable() {
