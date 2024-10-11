@@ -1,9 +1,11 @@
 package edu.miu.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CheckoutEntry {
-    private BookCopy bookCopy;
+public class CheckoutEntry implements Serializable {
+	private static final long serialVersionUID = 7036780757941959421L;
+	private BookCopy bookCopy;
     private Date checkoutDate;
     private Date dueDate;
 

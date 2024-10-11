@@ -1,6 +1,6 @@
 package edu.miu;
 
-import edu.miu.DAO.LibraryMemberDAO;
+import edu.miu.Business.LibraryMemberFactory;
 import edu.miu.Model.LibraryMember;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class ViewCheckedOutBooksPage {
     }
 
     private void addDummyMembers() {
-        List<LibraryMember> members = LibraryMemberDAO.getAllMembers();
+        List<LibraryMember> members = LibraryMemberFactory.getAllMembers();
         dummyMembers = members.toArray(new LibraryMember[0]);
 
         for (LibraryMember member : dummyMembers) {

@@ -1,6 +1,6 @@
 package edu.miu;
 
-import edu.miu.DAO.BookDAO;
+import edu.miu.Business.BookFactory;
 import edu.miu.Model.Address;
 
 import javax.swing.*;
@@ -60,7 +60,7 @@ public class CheckoutBooksPage {
             String isbn = isbnField.getText().trim();
             String memberID = memberIdField.getText().trim();
 
-            var res = BookDAO.checkoutBook(isbn, memberID);
+            var res = BookFactory.checkoutBook(isbn, memberID);
             messageLabel.setText(res);
 
             isbnField.setText("");

@@ -1,7 +1,7 @@
 package edu.miu;
 
-import edu.miu.DAO.AuthorDAO;
-import edu.miu.DAO.BookDAO;
+import edu.miu.Business.AuthorFactory;
+import edu.miu.Business.BookFactory;
 import edu.miu.Model.Author;
 
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class AddNewBookPage {
 
         // Author input
         JLabel authorLabel = new JLabel("Author:");
-        List<Author> authors = AuthorDAO.getAllAuthors();//{"Author 1", "Author 2", "Author 3", "Author 4"};
+        List<Author> authors = AuthorFactory.getAllAuthors();//{"Author 1", "Author 2", "Author 3", "Author 4"};
         Author[] authorArray = authors.toArray(new Author[0]);
 
         JList<Author> authorList = new JList<>(authorArray);
@@ -117,7 +117,7 @@ public class AddNewBookPage {
             int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthField.getText().trim());
             int numOfCopies = Integer.parseInt(numOfCopiesField.getText().trim());
 
-            var res = BookDAO.addBook(title,isbn,listOfAuthors, maxCheckoutLength, numOfCopies);
+            var res = BookFactory.addBook(title,isbn,listOfAuthors, maxCheckoutLength, numOfCopies);
             messageLabel.setText(res);
 
             isbnField.setText("");

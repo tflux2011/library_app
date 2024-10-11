@@ -1,4 +1,4 @@
-package edu.miu.DAO;
+package edu.miu.Business;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.List;
 import edu.miu.Model.Address;
 import edu.miu.Model.LibraryMember;
 
-public class LibraryMemberDAO {
+public class LibraryMemberFactory {
     private static List<LibraryMember> members = new ArrayList<>();
 
     public static String addMember(String firstName, String lastName, Address address, String phone) {
@@ -17,7 +17,7 @@ public class LibraryMemberDAO {
         return "Library Member added successfully.";
     }
 
-    public LibraryMember findMemberById(int memberId) {
+    public static LibraryMember findMemberById(int memberId) {
         return members.stream()
                 .filter(m -> m.getMemberId() == memberId)
                 .findFirst()

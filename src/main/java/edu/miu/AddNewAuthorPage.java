@@ -1,6 +1,6 @@
 package edu.miu;
 
-import edu.miu.DAO.AuthorDAO;
+import edu.miu.Business.AuthorFactory;
 import edu.miu.Model.Author;
 
 import javax.swing.*;
@@ -106,7 +106,7 @@ public class AddNewAuthorPage {
             String credentials = credentialsField.getText().trim();
             String bio = bioField.getText().trim();
             Author author = new Author(firstName, lastName, credentials,bio);
-            AuthorDAO.addAuthor(author);
+            AuthorFactory.addAuthor(author);
         });
     }
 

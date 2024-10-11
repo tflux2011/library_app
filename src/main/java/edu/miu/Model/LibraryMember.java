@@ -1,11 +1,13 @@
 package edu.miu.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LibraryMember {
-    private int memberId;
+public class LibraryMember implements Serializable {
+	private static final long serialVersionUID = -2549060898016489221L;
+	private int memberId;
     private String firstName;
     private String lastName;
     private Address address;
@@ -52,6 +54,4 @@ public class LibraryMember {
     public int getMemberId() {
     	return memberId;
     }
-
-
 }

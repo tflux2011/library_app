@@ -1,7 +1,10 @@
 package edu.miu.Model;
 
-public class Address {
-    private String street;
+import java.io.Serializable;
+
+public class Address implements Serializable {
+	private static final long serialVersionUID = 5903490709017061600L;
+	private String street;
     private String city;
     private String state;
     private String zip;

@@ -1,7 +1,10 @@
 package edu.miu.Model;
 
-public class BookCopy {
-    private String copyNumber;
+import java.io.Serializable;
+
+public class BookCopy implements Serializable {
+	private static final long serialVersionUID = 4176092367401293351L;
+	private String copyNumber;
     private boolean isAvailable;
     private Book book;
 

@@ -1,4 +1,4 @@
-package edu.miu.DAO;
+package edu.miu.Business;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import edu.miu.Model.Author;
 import edu.miu.Model.Book;
 import edu.miu.Model.BookCopy;
 
-public class BookDAO {
+public class BookFactory {
     private static List<Book> books = new ArrayList<>();
 
     public static Book findBookByIsbn(String isbn) {

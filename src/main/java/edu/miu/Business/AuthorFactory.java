@@ -1,4 +1,4 @@
-package edu.miu.DAO;
+package edu.miu.Business;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.miu.Model.Author;
 
-public class AuthorDAO {
+public class AuthorFactory {
     private static List<Author> authors = new ArrayList<>();
 
     public static void addAuthor(Author author) {

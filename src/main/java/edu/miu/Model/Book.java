@@ -1,11 +1,13 @@
 package edu.miu.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Book {
-    private String isbn;
+public class Book implements Serializable {
+	private static final long serialVersionUID = 2875085467925966317L;
+	private String isbn;
     private String title;
     private List<Author> authors;
     private int maxCheckoutLength;

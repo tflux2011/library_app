@@ -1,6 +1,9 @@
 package edu.miu.Model;
 
-public class Author {
+import java.io.Serializable;
+
+public class Author implements Serializable {
+	private static final long serialVersionUID = -3638116717142937164L;
 	private String firstName;
     private String lastName;
     private String credentials;

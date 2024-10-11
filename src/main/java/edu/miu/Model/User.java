@@ -1,9 +1,10 @@
 package edu.miu.Model;
 
-import edu.miu.Model.Auth;
+import java.io.Serializable;
 
-public class User {
-    public String username;
+public class User implements Serializable {
+	private static final long serialVersionUID = 3778249816731518887L;
+	public String username;
     public String password;
     public Auth authorization;
 
@@ -24,4 +25,3 @@ public class User {
         return this.username.equals(u.username) && this.password.equals(u.password);
     }
 }
-

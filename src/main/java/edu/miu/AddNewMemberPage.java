@@ -1,6 +1,6 @@
 package edu.miu;
 
-import edu.miu.DAO.LibraryMemberDAO;
+import edu.miu.Business.LibraryMemberFactory;
 import edu.miu.Model.Address;
 import edu.miu.Model.LibraryMember;
 
@@ -145,7 +145,7 @@ public class AddNewMemberPage {
             String zip = zipField.getText().trim();
 
             Address address = new Address(street, city,state,zip);
-            var member = LibraryMemberDAO.addMember(firstName,lastName,address,phone);
+            var member = LibraryMemberFactory.addMember(firstName,lastName,address,phone);
             messageLabel.setText(member);
 
             firstNameField.setText("");

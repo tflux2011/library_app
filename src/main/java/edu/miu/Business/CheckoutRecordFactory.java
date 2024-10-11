@@ -1,6 +1,7 @@
-package edu.miu.DAO;
+package edu.miu.Business;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,20 +12,24 @@ import edu.miu.Model.CheckoutEntry;
 import edu.miu.Model.CheckoutRecord;
 
 
-public class CheckoutRecordDAO {
+public class CheckoutRecordFactory {
     private static Map<Integer, CheckoutRecord> checkoutRecords = new HashMap<>();
 
-    public void addCheckoutEntry(int memberId, CheckoutEntry entry) {
+    public static void addCheckoutEntry(int memberId, CheckoutEntry entry) {
         CheckoutRecord record = checkoutRecords.getOrDefault(memberId, new CheckoutRecord());
         record.addCheckoutEntry(entry);
         checkoutRecords.put(memberId, record);
     }
 
-    public CheckoutRecord getCheckoutRecord(int memberId) {
+    public static CheckoutRecord getCheckoutRecord(int memberId) {
         return checkoutRecords.get(memberId);
     }
     
-    public List<BookCopy> getOverdueBooks() {
+    public static Map<Integer, CheckoutRecord> getAllCheckoutRecord(){
+    	return Collections.unmodifiableMap(checkoutRecords);
+    }
+    
+    public static List<BookCopy> getOverdueBooks() {
         List<BookCopy> overdueBooks = new ArrayList<>();
         Date currentDate = new Date();
 
