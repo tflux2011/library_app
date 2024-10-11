@@ -1,19 +1,23 @@
 package edu.miu;
 
+import edu.miu.DAO.BookDAO;
+import edu.miu.DAO.LibraryMemberDAO;
+import edu.miu.Model.Book;
+import edu.miu.Model.LibraryMember;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ViewBooksPage {
 
     private JPanel panel;
     private DefaultTableModel tableModel;
-    private static JComboBox<String> availabilityComboBox;
-    private static JComboBox<String> filterOptionsComboBox;
+    private Book[] allBooks;
 
-    private static JComboBox<String> authorComboBox;
 
     public ViewBooksPage() {
         panel = new JPanel(new BorderLayout());
@@ -33,7 +37,7 @@ public class ViewBooksPage {
 
 
         // Create the table for book listing
-        String[] columnNames = {"Title", "ISBN", "Book Author", "Availability"};
+        String[] columnNames = {"Title", "ISBN", "No of Copies", "Max Checkout"};
         tableModel = new DefaultTableModel(columnNames, 0);
 
         // Add some dummy data
@@ -61,17 +65,21 @@ public class ViewBooksPage {
     }
 
     private void addDummyBooks() {
-        String[][] dummyBooks = {
-                {"Effective Java", "978-0134685991", "Joshua Bloch", "Available"},
-                {"Clean Code", "978-0132350884", "Robert C. Martin", "Checked Out"},
-                {"Design Patterns", "978-0201633610", "Erich Gamma", "Available"},
-                {"The Pragmatic Programmer", "978-0201616224", "Andrew Hunt", "Available"},
-                {"Head First Java", "978-0596009205", "Kathy Sierra", "Checked Out"}
-        };
+        List<Book> books = BookDAO.getAllBooks();
+            allBooks = books.toArray(new Book[0]);
 
-        for (String[] book : dummyBooks) {
-            tableModel.addRow(book);
-        }
+            for (Book book : allBooks) {
+                // Convert each Author object to a String array (each row is a String array)
+                String[] row = new String[] {
+                        book.getTitle(),
+                        book.getIsbn(),
+                        book.getAuthors().toString(),
+                        String.valueOf(book.getCopies().size()),
+                        String.valueOf(book.getMaxCheckoutLength()),
+                };
+                // Add the row to the table model
+                tableModel.addRow(row);
+            }
     }
 
     private void filterBooks(String searchText) {

@@ -9,7 +9,7 @@ import edu.miu.Model.Author;
 public class AuthorFactory {
     private static List<Author> authors = new ArrayList<>();
 
-    public static void addAuthor(Author author) {
+    public static String addAuthor(Author author) {
     	if (author == null) {
             throw new IllegalArgumentException("Author cannot be null.");
         }
@@ -20,10 +20,10 @@ public class AuthorFactory {
         			authorExist.getLastName().equals(author.getLastName()));
 
         if (exists) {
-            System.out.println("Author already exists: " + author.getFirstName() + " " + author.getLastName());
+            return "Author already exists: " + author.getFirstName() + " " + author.getLastName();
         } else {
             authors.add(author);
-            System.out.println("Author added successfully: " + author.getFirstName() + " " + author.getLastName());
+            return "Author added successfully: " + author.getFirstName() + " " + author.getLastName();
         }
     }
 

@@ -12,9 +12,9 @@ public class AddNewAuthorPage {
     private JPanel panel;
     JTextField firstNameField;
     JTextField lastNameField;
-    JTextField phoneNumberField;
     JTextArea credentialsField;
     JTextArea bioField;
+    JLabel messageLabel;
 
     public AddNewAuthorPage() {
         panel = new JPanel(new GridBagLayout());
@@ -44,34 +44,25 @@ public class AddNewAuthorPage {
         gbc.gridy = 1;
         panel.add(lastNameField, gbc);
 
-        //Phone Number
-        JLabel phoneNumberLabel = new JLabel("Phone number:");
-        phoneNumberField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        panel.add(phoneNumberLabel, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        panel.add(phoneNumberField, gbc);
 
         //Credentials
         JLabel credentialsLabel = new JLabel("Credentials:");
         credentialsField = new JTextArea(5, 20);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         panel.add(credentialsLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         panel.add(credentialsField, gbc);
 
         //Credentials
         JLabel bioLabel = new JLabel("Bio:");
         bioField = new JTextArea(5, 20);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         panel.add(bioLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         panel.add(bioField, gbc);
 
         // Author input
@@ -94,9 +85,15 @@ public class AddNewAuthorPage {
         JButton submitButton = new JButton("Add Author");
         addLoginButtonListener(submitButton);
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         panel.add(submitButton, gbc);
+
+        messageLabel = new JLabel("");
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        panel.add(messageLabel, gbc);
     }
 
     public void addLoginButtonListener(JButton btn){
@@ -106,7 +103,14 @@ public class AddNewAuthorPage {
             String credentials = credentialsField.getText().trim();
             String bio = bioField.getText().trim();
             Author author = new Author(firstName, lastName, credentials,bio);
-            AuthorFactory.addAuthor(author);
+            var res = AuthorFactory.addAuthor(author);
+
+            messageLabel.setText(res);
+
+            firstNameField.setText("");
+            lastNameField.setText("");
+            credentialsField.setText("");
+            bioField.setText("");
         });
     }
 

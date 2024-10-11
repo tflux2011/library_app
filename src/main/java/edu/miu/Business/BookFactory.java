@@ -62,9 +62,9 @@ public class BookFactory {
     }
     
     public static List<Book> getAllBooks() {
-        if (books.isEmpty()) {
-            throw new IllegalStateException("No books found in the library.");
-        }
+//        if (books.isEmpty()) {
+//            throw new IllegalStateException("No books found in the library.");
+//        }
         
         return Collections.unmodifiableList(books);
     }
