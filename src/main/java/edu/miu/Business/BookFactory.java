@@ -29,16 +29,21 @@ public class BookFactory {
                 .orElseThrow(() -> new IllegalArgumentException("No available copy for the book with ISBN: " + isbn));
     }
 
-    public static String checkoutBook(String isbn, String memberId) {
-        BookCopy availableCopy = getAvailableCopy(isbn);
-        availableCopy.setAvailability(false);
+    public static BookCopy checkoutBook(String isbn, String memberId) {
+    	try {
+    		BookCopy availableCopy = getAvailableCopy(isbn);
+            availableCopy.setAvailability(false);
 
-        StorageManager manager = new DataAccessFacade();
-        Map<String, Book> booksMap = manager.readBooksFromStorage();
-        booksMap.put(isbn, availableCopy.getBook());
-        manager.saveBooksToStorage(booksMap);
+            StorageManager manager = new DataAccessFacade();
+            Map<String, Book> booksMap = manager.readBooksFromStorage();
+            booksMap.put(isbn, availableCopy.getBook());
+            manager.saveBooksToStorage(booksMap);
 
-        return "Book copy " + availableCopy.getCopyNumber() + " checked out successfully.";
+            return availableCopy;
+    	}
+    	catch(IllegalArgumentException ex) {
+    		return null;
+    	}
     }
 
     public static String addBook(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {

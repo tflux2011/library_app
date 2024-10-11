@@ -3,6 +3,7 @@ package edu.miu.Business;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import edu.miu.Model.CheckoutRecord;
 
 
 public class CheckoutRecordFactory {
-    public static void addCheckoutEntry(int memberId, CheckoutEntry entry) {
+    public static void addCheckoutEntry(int memberId, BookCopy bookCopy) {
     	StorageManager manager = new DataAccessFacade();
-        Map<Integer, CheckoutRecord> recordsMap = manager.readCheckoutRecordsFromStorage();
+        Map<Integer, CheckoutRecord> recordsMap = new HashMap<>();
+//        		manager.readCheckoutRecordsFromStorage();
 
+        CheckoutEntry entry = new CheckoutEntry(bookCopy);
         CheckoutRecord record = recordsMap.getOrDefault(memberId, new CheckoutRecord());
         record.addCheckoutEntry(entry);
         
