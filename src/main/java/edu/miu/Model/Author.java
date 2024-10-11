@@ -28,4 +28,9 @@ public class Author {
 	public String getBio() {
 		return bio;
 	}
+
+	@Override
+	public String toString() {
+		return this.firstName+" "+lastName;
+	}
 }

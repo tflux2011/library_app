@@ -113,43 +113,16 @@ public class LibraryApp {
                 } else {
                     Data.currentAuth = u.authorization;
 
-                    if(Data.currentAuth.toString().equals("LIBRARIAN")){
-                        LibrarianDashboard.main(null);
-                    }else{
-                        AdminDashboard.createAdminDashboard(Data.currentAuth.toString());
-                    }
+                    Dashboard.createAdminDashboard(Data.currentAuth.toString());
+
+//                    if(Data.currentAuth.toString().equals("LIBRARIAN")){
+//                        LibrarianDashboard.main(null);
+//                    }else{
+//                        AdminDashboard.createAdminDashboard(Data.currentAuth.toString());
+//                    }
                     frame.dispose();
                 }
             }
         });
-    }
-
-    // Handle login action
-    private static void handleLogin() {
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-
-        // Dummy password check (In a real application, you'd validate against a database)
-        if (password.equals("password")) {
-            String role = userRoles.get(username);
-
-            if (role != null) {
-                if (role.contains("Admin")) {
-                    // Admin has librarian privileges, check if they have checkout privileges too
-                    frame.dispose();  // Close the login window
-                    AdminDashboard.main(null);
-                } else if (role.contains("Librarian")) {
-                    // Load Librarian Dashboard
-                    frame.dispose();  // Close the login window
-                    LibrarianDashboard.main(null);
-                }
-            } else {
-                // Show error message if the user is not found
-                JOptionPane.showMessageDialog(frame, "Invalid credentials. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            // Show error message for incorrect password
-            JOptionPane.showMessageDialog(frame, "Invalid password. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 }

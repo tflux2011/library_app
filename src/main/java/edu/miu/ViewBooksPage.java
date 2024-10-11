@@ -10,6 +10,10 @@ public class ViewBooksPage {
 
     private JPanel panel;
     private DefaultTableModel tableModel;
+    private static JComboBox<String> availabilityComboBox;
+    private static JComboBox<String> filterOptionsComboBox;
+
+    private static JComboBox<String> authorComboBox;
 
     public ViewBooksPage() {
         panel = new JPanel(new BorderLayout());
@@ -18,9 +22,15 @@ public class ViewBooksPage {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel searchLabel = new JLabel("Search:");
         JTextField searchField = new JTextField(20);
+        JButton searchButton = new JButton("Submit");
+
+
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
         panel.add(searchPanel, BorderLayout.NORTH);
+
 
         // Create the table for book listing
         String[] columnNames = {"Title", "ISBN", "Book Author", "Availability"};
@@ -33,6 +43,13 @@ public class ViewBooksPage {
         JScrollPane tableScrollPane = new JScrollPane(bookTable);
         panel.add(tableScrollPane, BorderLayout.CENTER);
 
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = searchField.getText().toLowerCase();
+                filterBooks(searchText);
+            }
+        });
         // Add search functionality
         searchField.addActionListener(new ActionListener() {
             @Override

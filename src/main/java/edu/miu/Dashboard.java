@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDashboard {
+public class Dashboard {
 
     private static JFrame frame;
     private static JSplitPane splitPane;
@@ -31,11 +31,13 @@ public class AdminDashboard {
 
         // Dynamic Menu based on roles
         if (roles.contains("ADMIN") || roles.contains("BOTH")) {
-            menuItems.add("View Books");
+            menuItems.add("All Books");
+            menuItems.add("Add New Author");
             menuItems.add("Add New Book");
+            menuItems.add("Add New Member");
             menuItems.add("Manage Members");
         }
-        if (roles.contains("BOTH")) {
+        if (roles.contains("BOTH") || roles.contains("LIBRARIAN")) {
             menuItems.add("Checkout Books");
             menuItems.add("View Checked Out Books");
         }
@@ -71,7 +73,7 @@ public class AdminDashboard {
         contentPanel.removeAll();  // Clear previous content
 
         switch (selectedMenu) {
-            case "View Books":
+            case "All Books":
                 showViewBooksPage();
                 // Add your View Books table or panel here
                 break;
@@ -79,16 +81,24 @@ public class AdminDashboard {
                 showAddNewBookPage();
                 // Add your Add Book form here
                 break;
+            case "Add New Author":
+                showAddNewAuthorPage();
+                // Add your Add Book form here
+                break;
+            case "Add New Member":
+                showAddNewMemberPage();
+                // Add your Add Book form here
+                break;
             case "Manage Members":
                 showManageMembersPage();
                 // Add your Manage Members panel here
                 break;
             case "Checkout Books":
-                contentPanel.add(new JLabel("Here you can checkout books"), BorderLayout.CENTER);
+                showCheckoutPage();
                 // Add your Checkout Books form here
                 break;
             case "View Checked Out Books":
-                contentPanel.add(new JLabel("Here you can view checked out books"), BorderLayout.CENTER);
+                showViewCheckoutOutBooksPage();
                 // Add your View Checked Out Books panel here
                 break;
             case "Logout":
@@ -105,6 +115,23 @@ public class AdminDashboard {
         contentPanel.repaint();
     }
 
+    private static void showViewCheckoutOutBooksPage(){
+        ViewCheckedOutBooksPage viewCheckedOutBooksPage = new ViewCheckedOutBooksPage();
+        updateRightPanel(viewCheckedOutBooksPage.getPanel());
+    }
+    private static void showCheckoutPage(){
+        CheckoutBooksPage checkoutBooksPage = new CheckoutBooksPage();
+        updateRightPanel(checkoutBooksPage.getPanel());
+    }
+    private static void showAddNewMemberPage(){
+        AddNewMemberPage memberPage = new AddNewMemberPage();
+        updateRightPanel(memberPage.getPanel());
+    }
+
+    private static void showAddNewAuthorPage(){
+        AddNewAuthorPage addNewAuthorPage = new AddNewAuthorPage();
+        updateRightPanel(addNewAuthorPage.getPanel());
+    }
     private static void showViewBooksPage() {
         ViewBooksPage viewBooksPage = new ViewBooksPage();
         updateRightPanel(viewBooksPage.getPanel());

@@ -1,11 +1,17 @@
 package edu.miu;
 
+import edu.miu.DAO.BookDAO;
+import edu.miu.Model.Address;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class CheckoutBooksPage {
 
     private JPanel panel;
+    private JTextField isbnField;
+    private JTextField memberIdField;
+    private JLabel messageLabel;
 
     public CheckoutBooksPage() {
         panel = new JPanel(new GridBagLayout());
@@ -15,7 +21,7 @@ public class CheckoutBooksPage {
 
         // Book ISBN input
         JLabel isbnLabel = new JLabel("Book ISBN:");
-        JTextField isbnField = new JTextField(20);
+        isbnField = new JTextField(20);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(isbnLabel, gbc);
@@ -25,7 +31,7 @@ public class CheckoutBooksPage {
 
         // Member ID input
         JLabel memberIdLabel = new JLabel("Member ID:");
-        JTextField memberIdField = new JTextField(20);
+        memberIdField = new JTextField(20);
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(memberIdLabel, gbc);
@@ -34,11 +40,33 @@ public class CheckoutBooksPage {
         panel.add(memberIdField, gbc);
 
         // Checkout button
-        JButton checkoutButton = new JButton("Checkout Book");
-        gbc.gridx = 0;
+        JButton submitButton = new JButton("Submit");
+        gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        panel.add(checkoutButton, gbc);
+        panel.add(submitButton, gbc);
+
+        addLoginButtonListener(submitButton);
+
+        messageLabel = new JLabel("");
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 2;
+        panel.add(messageLabel, gbc);
+    }
+
+    public void addLoginButtonListener(JButton btn){
+        btn.addActionListener(evt -> {
+            String isbn = isbnField.getText().trim();
+            String memberID = memberIdField.getText().trim();
+
+            var res = BookDAO.checkoutBook(isbn, memberID);
+            messageLabel.setText(res);
+
+            isbnField.setText("");
+            memberIdField.setText("");
+
+        });
     }
 
     public JPanel getPanel() {

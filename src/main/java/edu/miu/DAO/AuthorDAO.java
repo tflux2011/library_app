@@ -9,7 +9,7 @@ import edu.miu.Model.Author;
 public class AuthorDAO {
     private static List<Author> authors = new ArrayList<>();
 
-    public void addAuthor(Author author) {
+    public static void addAuthor(Author author) {
     	if (author == null) {
             throw new IllegalArgumentException("Author cannot be null.");
         }
@@ -27,11 +27,11 @@ public class AuthorDAO {
         }
     }
 
-    public List<Author> getAllAuthors() {
+    public static List<Author> getAllAuthors() {
         return Collections.unmodifiableList(authors);
     }
 
-    public Author findAuthorByName(String firstName, String lastName) {
+    public static Author findAuthorByName(String firstName, String lastName) {
     	return authors.stream()
                 .filter(author -> author.getFirstName().equals(firstName) &&
                                   author.getLastName().equals(lastName))

@@ -10,11 +10,11 @@ import edu.miu.Model.LibraryMember;
 public class LibraryMemberDAO {
     private static List<LibraryMember> members = new ArrayList<>();
 
-    public void addMember(String firstName, String lastName, Address address, String phone) {
+    public static String addMember(String firstName, String lastName, Address address, String phone) {
     	int memberId = getAllMembers().size() + 1;
     	LibraryMember member = new LibraryMember(memberId, firstName, lastName, address, phone);
         members.add(member);
-        System.out.println("Library Member added successfully.");
+        return "Library Member added successfully.";
     }
 
     public LibraryMember findMemberById(int memberId) {
@@ -24,7 +24,7 @@ public class LibraryMemberDAO {
                 .orElse(null);
     }
 
-    public List<LibraryMember> getAllMembers() {
+    public static List<LibraryMember> getAllMembers() {
         return Collections.unmodifiableList(members);
     }
 }

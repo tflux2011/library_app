@@ -1,6 +1,7 @@
 package edu.miu.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LibraryMember {
@@ -20,6 +21,22 @@ public class LibraryMember {
         this.checkoutRecord = new CheckoutRecord();
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     public void checkoutBook(BookCopy copy) {
         if (copy.isAvailable()) {
             copy.setAvailability(false);
@@ -35,4 +52,6 @@ public class LibraryMember {
     public int getMemberId() {
     	return memberId;
     }
+
+
 }
