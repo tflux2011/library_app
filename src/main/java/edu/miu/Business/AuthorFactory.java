@@ -9,7 +9,8 @@ import edu.miu.DataAccess.StorageManager;
 import edu.miu.Model.Author;
 
 public class AuthorFactory {
-    public static void addAuthor(Author author) {
+
+    public static String addAuthor(Author author) {
     	if (author == null) {
             throw new IllegalArgumentException("Author cannot be null.");
         }
@@ -23,11 +24,11 @@ public class AuthorFactory {
                 .anyMatch(key -> key.equals(uniqueKey));
 
         if (exists) {
-            System.out.println("Author already exists: " + uniqueKey);
+        	return "Author already exists: " + uniqueKey;
         } else {
             authorMap.put(uniqueKey, author);
             manager.saveAuthorsToStorage(authorMap);
-            System.out.println("Author added successfully: " + uniqueKey);
+            return "Author added successfully: " + uniqueKey;
         }
     }
 
