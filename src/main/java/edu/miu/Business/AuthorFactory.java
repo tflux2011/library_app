@@ -1,40 +1,52 @@
 package edu.miu.Business;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import edu.miu.DataAccess.DataAccessFacade;
+import edu.miu.DataAccess.StorageManager;
 import edu.miu.Model.Author;
 
 public class AuthorFactory {
-    private static List<Author> authors = new ArrayList<>();
-
     public static void addAuthor(Author author) {
     	if (author == null) {
             throw new IllegalArgumentException("Author cannot be null.");
         }
-
-        boolean exists = authors.stream()
-        		.anyMatch(authorExist ->
-        			authorExist.getFirstName().equals(author.getFirstName()) &&
-        			authorExist.getLastName().equals(author.getLastName()));
+    	
+    	StorageManager manager = new DataAccessFacade();
+    	Map<String, Author> authorMap = manager.readAuthorsFromStorage();
+        
+        String uniqueKey = author.getFirstName() + " " + author.getLastName();
+        
+        boolean exists = authorMap.keySet().stream()
+                .anyMatch(key -> key.equals(uniqueKey));
 
         if (exists) {
-            System.out.println("Author already exists: " + author.getFirstName() + " " + author.getLastName());
+            System.out.println("Author already exists: " + uniqueKey);
         } else {
-            authors.add(author);
-            System.out.println("Author added successfully: " + author.getFirstName() + " " + author.getLastName());
+            authorMap.put(uniqueKey, author);
+            manager.saveAuthorsToStorage(authorMap);
+            System.out.println("Author added successfully: " + uniqueKey);
         }
     }
 
     public static List<Author> getAllAuthors() {
-        return Collections.unmodifiableList(authors);
+    	StorageManager manager = new DataAccessFacade();
+    	Map<String, Author> authorMap = manager.readAuthorsFromStorage();
+    	 
+         return authorMap.values().stream()
+                 .collect(Collectors.toUnmodifiableList());
     }
 
     public static Author findAuthorByName(String firstName, String lastName) {
-    	return authors.stream()
-                .filter(author -> author.getFirstName().equals(firstName) &&
-                                  author.getLastName().equals(lastName))
+    	StorageManager manager = new DataAccessFacade();
+    	Map<String, Author> authorMap = manager.readAuthorsFromStorage();
+        String uniqueKey = firstName + " " + lastName;
+        
+        return authorMap.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(uniqueKey))
+                .map(Map.Entry::getValue)
                 .findFirst().orElse(null);
     }
 }

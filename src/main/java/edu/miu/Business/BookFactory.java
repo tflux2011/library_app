@@ -1,22 +1,24 @@
 package edu.miu.Business;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import edu.miu.DataAccess.DataAccessFacade;
+import edu.miu.DataAccess.StorageManager;
 import edu.miu.Model.Author;
 import edu.miu.Model.Book;
 import edu.miu.Model.BookCopy;
 
-public class BookFactory {
-    private static List<Book> books = new ArrayList<>();
-
+public class BookFactory {    
     public static Book findBookByIsbn(String isbn) {
-        return books.stream()
+    	StorageManager manager = new DataAccessFacade();
+        Map<String, Book> booksMap = manager.readBooksFromStorage();
+        return booksMap.values().stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Book not found."));
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
     }
 
     public static BookCopy getAvailableCopy(String isbn) {
@@ -24,48 +26,70 @@ public class BookFactory {
         return book.getCopies().stream()
                 .filter(BookCopy::isAvailable)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No available copy for the book."));
+                .orElseThrow(() -> new IllegalArgumentException("No available copy for the book with ISBN: " + isbn));
     }
 
     public static String checkoutBook(String isbn, String memberId) {
         BookCopy availableCopy = getAvailableCopy(isbn);
         availableCopy.setAvailability(false);
+
+        StorageManager manager = new DataAccessFacade();
+        Map<String, Book> booksMap = manager.readBooksFromStorage();
+        booksMap.put(isbn, availableCopy.getBook());
+        manager.saveBooksToStorage(booksMap);
+
         return "Book copy " + availableCopy.getCopyNumber() + " checked out successfully.";
     }
 
     public static String addBook(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {
-    	Book book = new Book(isbn, title, authors, maxCheckoutLength, numOfCopies);
-        books.add(book);
-    	return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
+    	StorageManager manager = new DataAccessFacade();
+    	Map<String, Book> booksMap = manager.readBooksFromStorage();
+        
+        if (booksMap.containsKey(isbn)) {
+        	addBookCopies(isbn, numOfCopies);
+        	return "Book with ISBN " + isbn + " has been updated with " + numOfCopies + " copies.";
+        }
+
+        Book newBook = new Book(isbn, title, authors, maxCheckoutLength, numOfCopies);
+        booksMap.put(isbn, newBook);
+        manager.saveBooksToStorage(booksMap);
+
+        return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
     }
     
-    public static void addBook(String isbn, int numOfCopies) {
-    	Optional<Book> bookOptional = getBookByIsbn(isbn);
-    	if(bookOptional.isPresent()) {
-    		Book book = bookOptional.get();
+    private static void addBookCopies(String isbn, int numOfCopies) {
+    	StorageManager manager = new DataAccessFacade();
+        Map<String, Book> booksMap = manager.readBooksFromStorage();
+        
+        Book book = booksMap.get(isbn);
+        if (book != null) {
             for (int i = 0; i < numOfCopies; i++) {
                 book.addCopy();
             }
-            
-            books.add(book);
+            booksMap.put(isbn, book);
+            manager.saveBooksToStorage(booksMap);
             System.out.println(numOfCopies + " new copies added to book with ISBN: " + isbn);
-    	}
-    	else {
+        } else {
             throw new IllegalArgumentException("Book with ISBN " + isbn + " not found.");
         }
     }
     
     public static Optional<Book> getBookByIsbn(String isbn) {
-        return books.stream()
+    	StorageManager manager = new DataAccessFacade();
+        Map<String, Book> booksMap = manager.readBooksFromStorage();
+        return booksMap.values().stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst();
     }
     
     public static List<Book> getAllBooks() {
-        if (books.isEmpty()) {
+    	StorageManager manager = new DataAccessFacade();
+        Map<String, Book> booksMap = manager.readBooksFromStorage();
+        if (booksMap.isEmpty()) {
             throw new IllegalStateException("No books found in the library.");
         }
         
-        return Collections.unmodifiableList(books);
+        return booksMap.values().stream()
+                .collect(Collectors.toUnmodifiableList());
     }
 }
