@@ -34,8 +34,9 @@ public class BookDAO {
     }
 
     public static String addBook(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {
-    	new Book(isbn, title, authors, maxCheckoutLength, numOfCopies);
-        return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
+    	Book book = new Book(isbn, title, authors, maxCheckoutLength, numOfCopies);
+        books.add(book);
+    	return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
     }
     
     public static void addBook(String isbn, int numOfCopies) {
@@ -45,6 +46,8 @@ public class BookDAO {
             for (int i = 0; i < numOfCopies; i++) {
                 book.addCopy();
             }
+            
+            books.add(book);
             System.out.println(numOfCopies + " new copies added to book with ISBN: " + isbn);
     	}
     	else {
