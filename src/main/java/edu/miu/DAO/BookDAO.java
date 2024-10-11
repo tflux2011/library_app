@@ -1,6 +1,7 @@
 package edu.miu.DAO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class BookDAO {
         return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
     }
     
-    public void addBook(String isbn, int numOfCopies) {
+    public static void addBook(String isbn, int numOfCopies) {
     	Optional<Book> bookOptional = getBookByIsbn(isbn);
     	if(bookOptional.isPresent()) {
     		Book book = bookOptional.get();
@@ -51,9 +52,17 @@ public class BookDAO {
         }
     }
     
-    public Optional<Book> getBookByIsbn(String isbn) {
+    public static Optional<Book> getBookByIsbn(String isbn) {
         return books.stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst();
+    }
+    
+    public static List<Book> getAllBooks() {
+        if (books.isEmpty()) {
+            throw new IllegalStateException("No books found in the library.");
+        }
+        
+        return Collections.unmodifiableList(books);
     }
 }
