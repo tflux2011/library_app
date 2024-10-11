@@ -36,7 +36,7 @@ public class ViewBooksPage {
 
 
         // Create the table for book listing
-        String[] columnNames = {"Title", "ISBN", "No of Copies", "Max Checkout"};
+        String[] columnNames = {"Title", "ISBN", "AUTHOR", "No of Copies", "Max Checkout"};
         tableModel = new DefaultTableModel(columnNames, 0);
 
         // Add some dummy data

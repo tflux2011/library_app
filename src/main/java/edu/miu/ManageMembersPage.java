@@ -34,8 +34,13 @@ public class ManageMembersPage {
         String[] columnNames = {"Member ID", "First Name", "Last Name", "Street","City","State","Zip", "Phone"};
         tableModel = new DefaultTableModel(columnNames, 0);
 
-        // Add some dummy data
-        addDummyMembers();
+        try{
+            // Add some dummy data
+            addDummyMembers();
+        }catch(Exception e){
+            tableModel.addRow(new Object[] { "No records found", "", "" });
+        }
+
 
         JTable bookTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(bookTable);
@@ -54,6 +59,7 @@ public class ManageMembersPage {
     private void addDummyMembers() {
         List<LibraryMember> members = LibraryMemberFactory.getAllMembers();
         dummyMembers = members.toArray(new LibraryMember[0]);
+        System.out.println(dummyMembers);
 
         for (LibraryMember member : dummyMembers) {
             // Convert each Author object to a String array (each row is a String array)

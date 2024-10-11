@@ -145,8 +145,8 @@ public class AddNewMemberPage {
             String zip = zipField.getText().trim();
 
             Address address = new Address(street, city,state,zip);
-            var member = LibraryMemberFactory.addMember(firstName,lastName,address,phone);
-            messageLabel.setText(member);
+            var res = LibraryMemberFactory.addMember(firstName,lastName,address,phone);
+            messageLabel.setText(res);
 
             firstNameField.setText("");
             lastNameField.setText("");
