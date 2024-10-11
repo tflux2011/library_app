@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.miu.DataAccess.DataAccessFacade.StorageType;
 import edu.miu.Model.Author;
 import edu.miu.Model.Book;
 import edu.miu.Model.CheckoutRecord;
@@ -23,7 +22,7 @@ public class DataAccessFacade implements StorageManager {
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "/src/main/java/edu/miu/DataAccess/storage";
+			+ "\\src\\main\\java\\edu\\miu\\DataAccess\\storage";
 	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
