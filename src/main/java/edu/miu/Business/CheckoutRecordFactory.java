@@ -15,10 +15,10 @@ import edu.miu.Model.CheckoutRecord;
 
 
 public class CheckoutRecordFactory {
-    public static void addCheckoutEntry(int memberId, BookCopy bookCopy) {
+    public static Boolean addCheckoutEntry(int memberId, String isbn) {
+        BookCopy bookCopy = BookFactory.checkoutBook(isbn);
     	StorageManager manager = new DataAccessFacade();
-        Map<Integer, CheckoutRecord> recordsMap = new HashMap<>();
-//        		manager.readCheckoutRecordsFromStorage();
+        Map<Integer, CheckoutRecord> recordsMap = manager.readCheckoutRecordsFromStorage();
 
         CheckoutEntry entry = new CheckoutEntry(bookCopy);
         CheckoutRecord record = recordsMap.getOrDefault(memberId, new CheckoutRecord());
@@ -26,6 +26,7 @@ public class CheckoutRecordFactory {
         
         recordsMap.put(memberId, record);
         manager.saveCheckoutRecordsToStorage(recordsMap);
+        return true;
     }
     
     public static CheckoutRecord getCheckoutRecord(int memberId) {

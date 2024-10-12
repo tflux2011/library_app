@@ -2,7 +2,6 @@ package edu.miu;
 
 import edu.miu.Business.LibraryMemberFactory;
 import edu.miu.Model.Address;
-import edu.miu.Model.LibraryMember;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,145 +15,166 @@ public class AddNewMemberPage {
     JTextField phoneNumberField;
     JTextField streetField;
     JTextField cityField;
-    JTextField stateField;
+    JComboBox<String> stateComboBox;
     JTextField zipField;
     JLabel messageLabel;
+
+    // List of all U.S. states
+    private static final String[] STATES = {
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+            "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+            "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+            "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
+            "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+            "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+            "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
+            "Wisconsin", "Wyoming"
+    };
 
     public AddNewMemberPage() {
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 10, 10); // Padding around components
 
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Top, Left, Bottom, Right paddin
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Panel padding
 
-        // First name input
-        JLabel firstNameLabel = new JLabel("First name:");
-        firstNameField = new JTextField(20);
+        Font labelFont = new Font("Arial", Font.PLAIN, 16);
+
+        // Title Label
+        JLabel titleLabel = new JLabel("Add New Member");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Font size and style
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(titleLabel, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // First Name Input
+        JLabel firstNameLabel = new JLabel("👤 First Name:");
+        firstNameLabel.setFont(labelFont);
+        firstNameField = new JTextField(20);
+        gbc.gridx = 0; gbc.gridy = 1;
         panel.add(firstNameLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 0;
         panel.add(firstNameField, gbc);
 
-        // Last name input
-        JLabel lastNameLabel = new JLabel("Last name:");
+        // Last Name Input
+        JLabel lastNameLabel = new JLabel("👤 Last Name:");
+        lastNameLabel.setFont(labelFont);
         lastNameField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridx = 0; gbc.gridy = 2;
         panel.add(lastNameLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 1;
         panel.add(lastNameField, gbc);
 
-        //Phone Number
-        JLabel phoneNumberLabel = new JLabel("Phone number:");
+        // Phone Number Input
+        JLabel phoneNumberLabel = new JLabel("📱 Phone Number:");
+        phoneNumberLabel.setFont(labelFont);
         phoneNumberField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridx = 0; gbc.gridy = 3;
         panel.add(phoneNumberLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 2;
         panel.add(phoneNumberField, gbc);
 
-        //Street
-        JLabel streetLabel = new JLabel("Street:");
+        // Street Input
+        JLabel streetLabel = new JLabel("🏠 Street:");
+        streetLabel.setFont(labelFont);
         streetField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridx = 0; gbc.gridy = 4;
         panel.add(streetLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 3;
         panel.add(streetField, gbc);
 
-        //City
-        JLabel cityLabel = new JLabel("City:");
+        // City Input
+        JLabel cityLabel = new JLabel("🏙️ City:");
+        cityLabel.setFont(labelFont);
         cityField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridx = 0; gbc.gridy = 5;
         panel.add(cityLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 4;
         panel.add(cityField, gbc);
 
-        JLabel stateLabel = new JLabel("State:");
-        stateField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 5;
+        // State Dropdown
+        JLabel stateLabel = new JLabel("🌎 State:");
+        stateLabel.setFont(labelFont);
+        stateComboBox = new JComboBox<>(STATES);
+        stateComboBox.setSelectedIndex(-1); // Default to no selection
+        gbc.gridx = 0; gbc.gridy = 6;
         panel.add(stateLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 5;
-        panel.add(stateField, gbc);
+        panel.add(stateComboBox, gbc);
 
-        JLabel zipLabel = new JLabel("Zip:");
+        // Zip Input
+        JLabel zipLabel = new JLabel("📮 Zip:");
+        zipLabel.setFont(labelFont);
         zipField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridx = 0; gbc.gridy = 7;
         panel.add(zipLabel, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 6;
         panel.add(zipField, gbc);
 
-
-
-
-        // Author input
-//        JLabel authorLabel = new JLabel("Author:");
-//        String[] authors = {"Author 1", "Author 2", "Author 3", "Author 4"};
-//        JList<String> authorList = new JList<>(authors);
-//        authorList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Allow multiple selections
-//        JScrollPane authorScrollPane = new JScrollPane(authorList);
-//
-//
-//        gbc.gridx = 0;
-//        gbc.gridy = 2;
-//        panel.add(authorLabel, gbc);
-//        gbc.gridx = 1;
-//        gbc.gridy = 2;
-//        panel.add(authorScrollPane, gbc);
-
-
-        // Submit button
-        JLabel emptyLabel = new JLabel("");
-        JButton submitButton = new JButton("Submit");
-        addLoginButtonListener(submitButton);
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        panel.add(emptyLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 8;
+        // Submit Button
+        JButton submitButton = new JButton("✅ Submit");
+        submitButton.setFont(submitButton.getFont().deriveFont(16f));
+        gbc.gridx = 1; gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.EAST;
+        addSubmitButtonListener(submitButton);
         panel.add(submitButton, gbc);
 
+        // Message Label for Feedback
         messageLabel = new JLabel("");
-        gbc.gridx = 0;
-        gbc.gridy = 9;
+        messageLabel.setForeground(Color.RED);
+        gbc.gridx = 0; gbc.gridy = 9;
         gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
         panel.add(messageLabel, gbc);
     }
 
-    public void addLoginButtonListener(JButton btn){
+    // Adds a listener to the submit button
+    private void addSubmitButtonListener(JButton btn) {
         btn.addActionListener(evt -> {
+            messageLabel.setText("");
+
             String firstName = firstNameField.getText().trim();
             String lastName = lastNameField.getText().trim();
             String phone = phoneNumberField.getText().trim();
             String street = streetField.getText().trim();
             String city = cityField.getText().trim();
-            String state = stateField.getText().trim();
+            String state = (String) stateComboBox.getSelectedItem();
             String zip = zipField.getText().trim();
 
-            Address address = new Address(street, city,state,zip);
-            var res = LibraryMemberFactory.addMember(firstName,lastName,address,phone);
-            messageLabel.setText(res);
+            if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty() ||
+                    street.isEmpty() || city.isEmpty() || state == null || zip.isEmpty()) {
+                messageLabel.setText("⚠️ All fields are required.");
+                return;
+            }
 
-            firstNameField.setText("");
-            lastNameField.setText("");
-            phoneNumberField.setText("");
-            streetField.setText("");
-            cityField.setText("");
-            stateField.setText("");
-            zipField.setText("");
+            if (!phone.matches("\\d{10}")) {
+                messageLabel.setText("⚠️ Phone number must be 10 digits.");
+                return;
+            }
+
+            if (!zip.matches("\\d{5}")) {
+                messageLabel.setText("⚠️ Zip code must be 5 digits.");
+                return;
+            }
+
+            String result = LibraryMemberFactory.addMember(firstName, lastName, phone, street, city, state, zip);
+            messageLabel.setText(result);
+
+            if (result.contains("successfully")) {
+                firstNameField.setText("");
+                lastNameField.setText("");
+                phoneNumberField.setText("");
+                streetField.setText("");
+                cityField.setText("");
+                stateComboBox.setSelectedIndex(-1); // Reset dropdown
+                zipField.setText("");
+            }
         });
     }
 

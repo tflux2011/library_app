@@ -24,6 +24,10 @@ public class Author implements Serializable {
 		return lastName;
 	}
 
+	public String getFullName(){
+		return getFirstName() +" "+getLastName();
+	}
+
 	public String getCredentials() {
 		return credentials;
 	}
@@ -34,6 +38,6 @@ public class Author implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.firstName+" "+lastName;
+		return firstName+" "+lastName;
 	}
 }

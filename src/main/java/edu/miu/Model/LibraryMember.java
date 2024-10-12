@@ -14,12 +14,12 @@ public class LibraryMember implements Serializable {
     private String phone;
     private CheckoutRecord checkoutRecord;
 
-    public LibraryMember(int memberId, String firstName, String lastName, Address address, String phone) {
+    public LibraryMember(int memberId, String firstName, String lastName, String phone, String street, String city, String state, String zip) {
         this.memberId = memberId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
         this.phone = phone;
+        this.address = new Address(street, city, state, zip);
         this.checkoutRecord = new CheckoutRecord();
     }
 

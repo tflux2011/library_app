@@ -9,7 +9,7 @@ public class Dashboard {
 
     private static JFrame frame;
     private static JSplitPane splitPane;
-    private static JList<String> navigationList;
+    private static JList<MenuItem> navigationList;
     private static JPanel contentPanel;
 
     public static void main(String[] args) {
@@ -20,38 +20,37 @@ public class Dashboard {
     }
 
     public static void createAdminDashboard(String roles) {
-        System.out.println(roles);
-        frame = new JFrame("Admin Dashboard");
+        frame = new JFrame("Dashboard");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);  // Center the window
 
         // Left navigation panel (JList)
-        List<String> menuItems = new ArrayList<>();
+        List<MenuItem> menuItems = new ArrayList<>();
 
         // Dynamic Menu based on roles
         if (roles.contains("ADMIN") || roles.contains("BOTH")) {
-            menuItems.add("All Books");
-            menuItems.add("Add New Author");
-            menuItems.add("Add New Book");
-            menuItems.add("Add New Member");
-            menuItems.add("Manage Members");
+            menuItems.add(new MenuItem("📚 All Books"));
+            menuItems.add(new MenuItem("🖊️ Add New Author"));
+            menuItems.add(new MenuItem("📖 Add New Book"));
+            menuItems.add(new MenuItem("📖 Add Book Copy"));
+            menuItems.add(new MenuItem("👤 Add New Member"));
+            menuItems.add(new MenuItem("👥 Manage Members"));
         }
         if (roles.contains("BOTH") || roles.contains("LIBRARIAN")) {
-            menuItems.add("Checkout Books");
-            menuItems.add("View Checked Out Books");
+            menuItems.add(new MenuItem("📥 Checkout Books"));
+            menuItems.add(new MenuItem("📜 View Checked Out Books"));
         }
-        menuItems.add("Logout");
-
-        // Convert the list to an array for JList
-        String[] menuArray = menuItems.toArray(new String[0]);
+        menuItems.add(new MenuItem("🚪 Logout"));
 
         // Create a JList for the navigation
-        navigationList = new JList<>(menuArray);
+        navigationList = new JList<>(menuItems.toArray(new MenuItem[0]));
         navigationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        navigationList.setCellRenderer(new MenuItemRenderer());  // Custom renderer for JList items
+        navigationList.setFixedCellHeight(50);  // Set fixed height for each item
 
         // Add a listener to handle menu selections
-        navigationList.addListSelectionListener(e -> handleMenuSelection(navigationList.getSelectedValue()));
+        navigationList.addListSelectionListener(e -> handleMenuSelection(navigationList.getSelectedValue().getText()));
 
         // Right panel for content
         contentPanel = new JPanel(new BorderLayout());
@@ -63,6 +62,7 @@ public class Dashboard {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(navigationList), contentPanel);
         splitPane.setDividerLocation(200);  // Set initial size for navigation pane
 
+        navigationList.setSelectedIndex(0);
         // Add SplitPane to the frame
         frame.getContentPane().add(splitPane);
         frame.setVisible(true);
@@ -73,76 +73,77 @@ public class Dashboard {
         contentPanel.removeAll();  // Clear previous content
 
         switch (selectedMenu) {
-            case "All Books":
+            case "📚 All Books":
                 showViewBooksPage();
-                // Add your View Books table or panel here
                 break;
-            case "Add New Book":
+            case "📖 Add New Book":
                 showAddNewBookPage();
-                // Add your Add Book form here
                 break;
-            case "Add New Author":
+            case "📖 Add Book Copy":
+                showAddBookCopyPage();
+                break;
+            case "🖊️ Add New Author":
                 showAddNewAuthorPage();
-                // Add your Add Book form here
                 break;
-            case "Add New Member":
+            case "👤 Add New Member":
                 showAddNewMemberPage();
-                // Add your Add Book form here
                 break;
-            case "Manage Members":
+            case "👥 Manage Members":
                 showManageMembersPage();
-                // Add your Manage Members panel here
                 break;
-            case "Checkout Books":
+            case "📥 Checkout Books":
                 showCheckoutPage();
-                // Add your Checkout Books form here
                 break;
-            case "View Checked Out Books":
+            case "📜 View Checked Out Books":
                 showViewCheckoutOutBooksPage();
-                // Add your View Checked Out Books panel here
                 break;
-            case "Logout":
+            case "🔒 Logout":
                 JOptionPane.showMessageDialog(frame, "Logging out...");
                 frame.dispose();
-                // You can redirect to the login page here
                 LibraryApp.main(null);
                 break;
         }
-
 
         // Refresh content panel
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
-    private static void showViewCheckoutOutBooksPage(){
+    private static void showAddBookCopyPage(){
+        ViewAddBookCopyPage viewAddBookCopyPage = new ViewAddBookCopyPage();
+        updateRightPanel(viewAddBookCopyPage.getPanel());
+    }
+    private static void showViewCheckoutOutBooksPage() {
         ViewCheckedOutBooksPage viewCheckedOutBooksPage = new ViewCheckedOutBooksPage();
         updateRightPanel(viewCheckedOutBooksPage.getPanel());
     }
-    private static void showCheckoutPage(){
+
+    private static void showCheckoutPage() {
         CheckoutBooksPage checkoutBooksPage = new CheckoutBooksPage();
         updateRightPanel(checkoutBooksPage.getPanel());
     }
-    private static void showAddNewMemberPage(){
+
+    private static void showAddNewMemberPage() {
         AddNewMemberPage memberPage = new AddNewMemberPage();
         updateRightPanel(memberPage.getPanel());
     }
 
-    private static void showAddNewAuthorPage(){
+    private static void showAddNewAuthorPage() {
         AddNewAuthorPage addNewAuthorPage = new AddNewAuthorPage();
         updateRightPanel(addNewAuthorPage.getPanel());
     }
+
     private static void showViewBooksPage() {
         ViewBooksPage viewBooksPage = new ViewBooksPage();
         updateRightPanel(viewBooksPage.getPanel());
     }
 
-    private static void showAddNewBookPage(){
+    private static void showAddNewBookPage() {
         AddNewBookPage addNewBookPage = new AddNewBookPage();
         updateRightPanel(addNewBookPage.getPanel());
     }
 
-    private static void showManageMembersPage(){
+    private static void showManageMembersPage() {
         ManageMembersPage manageMembersPage = new ManageMembersPage();
         updateRightPanel(manageMembersPage.getPanel());
     }
@@ -153,5 +154,37 @@ public class Dashboard {
         contentPanel.add(newContent, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
+    }
+
+    // Inner class for menu item representation
+    private static class MenuItem {
+        private String text;
+
+        public MenuItem(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        @Override
+        public String toString() {
+            return text;  // Display text in JList
+        }
+    }
+
+    // Custom renderer for JList items
+    private static class MenuItemRenderer extends DefaultListCellRenderer {
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            MenuItem menuItem = (MenuItem) value;
+
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            label.setText(menuItem.getText());
+            label.setHorizontalTextPosition(SwingConstants.LEFT);
+            label.setFont(label.getFont().deriveFont(13f));
+
+            return label;
+        }
     }
 }

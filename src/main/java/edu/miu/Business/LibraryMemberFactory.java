@@ -10,13 +10,13 @@ import edu.miu.Model.Address;
 import edu.miu.Model.LibraryMember;
 
 public class LibraryMemberFactory {
-    public static String addMember(String firstName, String lastName, Address address, String phone) {
+    public static String addMember(String firstName, String lastName, String phone, String street, String city, String state, String zip) {
     	StorageManager manager = new DataAccessFacade();
         Map<Integer, LibraryMember> membersMap = manager.readMembersFromStorage();
         
         int memberId = membersMap.size() + 1;
 
-        LibraryMember member = new LibraryMember(memberId, firstName, lastName, address, phone);
+        LibraryMember member = new LibraryMember(memberId, firstName, lastName, phone, street, city, state, zip);
         membersMap.put(memberId, member);
         
         manager.saveMembersToStorage(membersMap);

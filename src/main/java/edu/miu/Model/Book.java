@@ -63,6 +63,15 @@ public class Book implements Serializable {
         }
         return false;
     }
+
+    public void updateCopyAvailability(BookCopy copy){
+        for(BookCopy bookCopy : copies){
+            if(bookCopy.equals(copy)){
+                bookCopy.setAvailability(false);
+                break;
+            }
+        }
+    }
     
     public int getMaxCheckoutLength() {
         return this.maxCheckoutLength;

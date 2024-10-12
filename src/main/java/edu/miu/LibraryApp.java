@@ -83,9 +83,9 @@ public class LibraryApp {
 
         // Login button
         JButton loginButton = new JButton("Login");
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 4;
-        gbc.gridwidth = 2;
+//        gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         loginPanel.add(loginButton, gbc);
 
@@ -115,11 +115,6 @@ public class LibraryApp {
 
                     Dashboard.createAdminDashboard(Data.currentAuth.toString());
 
-//                    if(Data.currentAuth.toString().equals("LIBRARIAN")){
-//                        LibrarianDashboard.main(null);
-//                    }else{
-//                        AdminDashboard.createAdminDashboard(Data.currentAuth.toString());
-//                    }
                     frame.dispose();
                 }
             }

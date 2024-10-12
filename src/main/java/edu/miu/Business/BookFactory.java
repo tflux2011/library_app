@@ -21,24 +21,24 @@ public class BookFactory {
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
     }
 
-    public static BookCopy getAvailableCopy(String isbn) {
-        Book book = findBookByIsbn(isbn);
+    private static BookCopy getAvailableCopy(Book book) {
         return book.getCopies().stream()
                 .filter(BookCopy::isAvailable)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No available copy for the book with ISBN: " + isbn));
+                .orElseThrow(() -> new IllegalArgumentException("No available copy for the book with ISBN: " + book.getIsbn()));
     }
 
-    public static BookCopy checkoutBook(String isbn, String memberId) {
+    public static BookCopy checkoutBook(String isbn) {
     	try {
-    		BookCopy availableCopy = getAvailableCopy(isbn);
+            Book book = findBookByIsbn(isbn);
+    		BookCopy availableCopy = getAvailableCopy(book);
             availableCopy.setAvailability(false);
+            book.updateCopyAvailability(availableCopy);
 
             StorageManager manager = new DataAccessFacade();
             Map<String, Book> booksMap = manager.readBooksFromStorage();
             booksMap.put(isbn, availableCopy.getBook());
             manager.saveBooksToStorage(booksMap);
-
             return availableCopy;
     	}
     	catch(IllegalArgumentException ex) {

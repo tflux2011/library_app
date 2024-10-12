@@ -10,10 +10,8 @@ import edu.miu.Model.Author;
 
 public class AuthorFactory {
 
-    public static String addAuthor(Author author) {
-    	if (author == null) {
-            throw new IllegalArgumentException("Author cannot be null.");
-        }
+    public static String addAuthor(String firstName, String lastName, String credentials, String bio) {
+    	Author author = new Author(firstName, lastName, credentials, bio);
     	
     	StorageManager manager = new DataAccessFacade();
     	Map<String, Author> authorMap = manager.readAuthorsFromStorage();

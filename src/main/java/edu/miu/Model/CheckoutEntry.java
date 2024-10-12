@@ -13,10 +13,6 @@ public class CheckoutEntry implements Serializable {
     	 if (bookCopy == null) {
              throw new IllegalArgumentException("BookCopy cannot be null.");
          }
-    	 
-         if (!bookCopy.isAvailable()) {
-             throw new IllegalStateException("This book copy is not available for checkout.");
-         }
          
         this.bookCopy = bookCopy;
         this.checkoutDate = new Date();

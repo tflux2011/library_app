@@ -6,14 +6,14 @@ import edu.miu.Business.CheckoutRecordFactory;
 import javax.swing.*;
 import java.awt.*;
 
-public class CheckoutBooksPage {
+public class ViewAddBookCopyPage {
 
     private JPanel panel;
     private JTextField isbnField;
     private JTextField memberIdField;
     private JLabel messageLabel;
 
-    public CheckoutBooksPage() {
+    public ViewAddBookCopyPage() {
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;

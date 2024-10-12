@@ -22,7 +22,7 @@ public class DataAccessFacade implements StorageManager {
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "\\src\\main\\java\\edu\\miu\\DataAccess\\storage";
+			+ "/src/main/java/edu/miu/DataAccess/storage";
 	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
