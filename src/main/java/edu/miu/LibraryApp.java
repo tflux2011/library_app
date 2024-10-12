@@ -29,7 +29,7 @@ public class LibraryApp {
     private static void createAndShowLogin() {
         frame = new JFrame("Library Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);  // Increased the size to accommodate the image
+        frame.setSize(900, 600);  // Increased the size to accommodate the image
         frame.setLocationRelativeTo(null); // Center the window
 
         // Login Panel

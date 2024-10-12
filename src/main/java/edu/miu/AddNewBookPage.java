@@ -148,8 +148,9 @@ public class AddNewBookPage {
                 return;
             }
 
-            if (!isbn.matches("\\d{10}|\\d{13}")) {
-                messageLabel.setText("⚠️ ISBN must be 10 or 13 digits.");
+//            if (!isbn.matches("\\d{10}|\\d{13}")) {
+            if (isbn.length() != 10 && isbn.length() != 13) {
+                messageLabel.setText("⚠️ ISBN must be exactly 10 or 13 characters.");
                 return;
             }
 

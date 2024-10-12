@@ -22,7 +22,11 @@ public class CheckoutEntry implements Serializable {
     public boolean isOverdue(Date currentDate) {
         return dueDate.before(currentDate);
     }
-    
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
     public BookCopy getBookCopy() {
     	return bookCopy;
     }
