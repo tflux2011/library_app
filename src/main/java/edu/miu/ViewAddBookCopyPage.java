@@ -10,8 +10,9 @@ public class ViewAddBookCopyPage {
 
     private JPanel panel;
     private JTextField isbnField;
-    private JTextField memberIdField;
+    private JTextField numOfCopiesField;
     private JLabel messageLabel;
+    private JLabel searchMessageLabel;
 
     public ViewAddBookCopyPage() {
         panel = new JPanel(new GridBagLayout());
@@ -22,7 +23,7 @@ public class ViewAddBookCopyPage {
         Font labelFont = new Font("Arial", Font.PLAIN, 16); // Common label font
 
         // Title Label
-        JLabel titleLabel = new JLabel("Checkout Book");
+        JLabel titleLabel = new JLabel("Add Book Copy");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Larger font for title
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -43,23 +44,42 @@ public class ViewAddBookCopyPage {
         panel.add(isbnLabel, gbc);
         gbc.gridx = 1;
         panel.add(isbnField, gbc);
+        JButton searchButton = new JButton("🔍 Search");
+        gbc.gridx = 2;
+        panel.add(searchButton, gbc);
 
-        // Member ID input
-        JLabel memberIdLabel = new JLabel("🆔 Member ID:");
-        memberIdLabel.setFont(labelFont); // Set font size 16
-        memberIdField = new JTextField(20);
+        // Message label for feedback
+        searchMessageLabel = new JLabel("");
+        searchMessageLabel.setForeground(Color.RED); // Red for error messages
         gbc.gridx = 0;
         gbc.gridy = 2;
-        panel.add(memberIdLabel, gbc);
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(searchMessageLabel, gbc);
+
+        // Reset grid width and alignment for inputs
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // Number of copies input
+        JLabel numOfCopiesLabel = new JLabel("🆔 Num of Copies:");
+        numOfCopiesLabel.setFont(labelFont); // Set font size 16
+        numOfCopiesField = new JTextField(20);
+        numOfCopiesField.setEnabled(false);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(numOfCopiesLabel, gbc);
         gbc.gridx = 1;
-        panel.add(memberIdField, gbc);
+        panel.add(numOfCopiesField, gbc);
 
         // Checkout button
-        JButton submitButton = new JButton("✅ Checkout");
+        JButton submitButton = new JButton("✅ Submit");
         submitButton.setFont(submitButton.getFont().deriveFont(16f)); // Slightly larger button text
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.EAST;
+
+        addSearchButtonListener(searchButton);
         addSubmitButtonListener(submitButton);
         panel.add(submitButton, gbc);
 
@@ -67,46 +87,62 @@ public class ViewAddBookCopyPage {
         messageLabel = new JLabel("");
         messageLabel.setForeground(Color.RED); // Red for error messages
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(messageLabel, gbc);
     }
 
+    private void addSearchButtonListener(JButton btn){
+        btn.addActionListener(evt -> {
+            String isbn = isbnField.getText().trim();
+            if (isbn.isEmpty()) {
+                searchMessageLabel.setText("⚠️ ISBN is required.");
+                return;
+            }
+            try {
+                var res = BookFactory.getBookByIsbn(isbn);
+                searchMessageLabel.setText(res.get().getTitle() + " was found, please specify number of copies.");
+                numOfCopiesField.setEnabled(true);
+                searchMessageLabel.setForeground(new Color(0, 128, 0));
+            }catch(Exception e){
+                searchMessageLabel.setText("Sorry, book with "+isbn+" was not found.");
+                searchMessageLabel.setForeground(new Color(255, 0, 0));
+            }
+        });
+    }
     // Listener for the submit button
     private void addSubmitButtonListener(JButton btn) {
         btn.addActionListener(evt -> {
             messageLabel.setText(""); // Clear previous message
 
             String isbn = isbnField.getText().trim();
-            String memberIdText = memberIdField.getText().trim();
+            String numOfCopies = numOfCopiesField.getText().trim();
 
             // Validate inputs
-            if (isbn.isEmpty() || memberIdText.isEmpty()) {
+            if (isbn.isEmpty() || numOfCopies.isEmpty()) {
                 messageLabel.setText("⚠️ All fields are required.");
                 return;
             }
 
-            if (!isbn.matches("\\d{10}|\\d{13}")) {
-                messageLabel.setText("⚠️ ISBN must be 10 or 13 digits.");
-                return;
-            }
+//            if (!isbn.matches("\\d{10}|\\d{13}")) {
+//                messageLabel.setText("⚠️ ISBN must be 10 or 13 digits.");
+//                return;
+//            }
 
             try {
-                int memberID = Integer.parseInt(memberIdText);
-
+                int numOfCop = Integer.parseInt(numOfCopies);
                 try{
-                    CheckoutRecordFactory.addCheckoutEntry(memberID, isbn);
+                    BookFactory.addBookCopies(isbn, numOfCop);
 
                     messageLabel.setForeground(new Color(0, 128, 0)); // Green for success
-                    messageLabel.setText("🎉 Checkout was successful!");
-
+                    messageLabel.setText("🎉 "+numOfCop+" new copies were added to book with ISBN: "+isbn);
 
                     // Clear fields after successful checkout
                     isbnField.setText("");
-                    memberIdField.setText("");
+                    numOfCopiesField.setText("");
                 }catch(Exception e){
-                    messageLabel.setText("⚠️ Checkout was not successful, no copy of book available.");
+                    messageLabel.setText("⚠️ Sorry, Book copies were not added successfully!");
                     messageLabel.setForeground(new Color(255, 0, 0));
                 }
 

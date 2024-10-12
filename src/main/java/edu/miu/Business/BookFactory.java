@@ -62,7 +62,7 @@ public class BookFactory {
         return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
     }
     
-    private static void addBookCopies(String isbn, int numOfCopies) {
+    public static void addBookCopies(String isbn, int numOfCopies) {
     	StorageManager manager = new DataAccessFacade();
         Map<String, Book> booksMap = manager.readBooksFromStorage();
         

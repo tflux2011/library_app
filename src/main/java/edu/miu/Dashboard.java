@@ -41,7 +41,7 @@ public class Dashboard {
             menuItems.add(new MenuItem("📥 Checkout Books"));
             menuItems.add(new MenuItem("📜 View Checked Out Books"));
         }
-        menuItems.add(new MenuItem("🚪 Logout"));
+        menuItems.add(new MenuItem("🔒 Logout"));
 
         // Create a JList for the navigation
         navigationList = new JList<>(menuItems.toArray(new MenuItem[0]));
