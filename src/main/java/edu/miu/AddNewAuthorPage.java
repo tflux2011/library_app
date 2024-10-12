@@ -124,8 +124,14 @@ public class AddNewAuthorPage {
             }
 
             // Create a new author and submit
-            String response = AuthorFactory.addAuthor(firstName, lastName, credentials, bio);
-            messageLabel.setText(response);
+            boolean response = AuthorFactory.addAuthor(firstName, lastName, credentials, bio);
+            if(response) {
+                messageLabel.setText("Author was created successful.");
+                messageLabel.setForeground(new Color(0, 128, 0));
+            }else{
+                messageLabel.setText("Author already exists");
+                messageLabel.setForeground(new Color(255, 0, 0));
+            }
 
             // Clear fields after successful submission
             firstNameField.setText("");

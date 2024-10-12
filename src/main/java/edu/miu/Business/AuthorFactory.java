@@ -10,7 +10,7 @@ import edu.miu.Model.Author;
 
 public class AuthorFactory {
 
-    public static String addAuthor(String firstName, String lastName, String credentials, String bio) {
+    public static boolean addAuthor(String firstName, String lastName, String credentials, String bio) {
     	Author author = new Author(firstName, lastName, credentials, bio);
     	
     	StorageManager manager = new DataAccessFacade();
@@ -22,11 +22,11 @@ public class AuthorFactory {
                 .anyMatch(key -> key.equals(uniqueKey));
 
         if (exists) {
-        	return "Author already exists: " + uniqueKey;
+        	return false;//"Author already exists: " + uniqueKey;
         } else {
             authorMap.put(uniqueKey, author);
             manager.saveAuthorsToStorage(authorMap);
-            return "Author added successfully: " + uniqueKey;
+            return true;//"Author added successfully: " + uniqueKey;
         }
     }
 

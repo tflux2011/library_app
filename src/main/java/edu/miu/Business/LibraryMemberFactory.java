@@ -10,7 +10,7 @@ import edu.miu.Model.Address;
 import edu.miu.Model.LibraryMember;
 
 public class LibraryMemberFactory {
-    public static String addMember(String firstName, String lastName, String phone, String street, String city, String state, String zip) {
+    public static boolean addMember(String firstName, String lastName, String phone, String street, String city, String state, String zip) {
     	StorageManager manager = new DataAccessFacade();
         Map<Integer, LibraryMember> membersMap = manager.readMembersFromStorage();
         
@@ -21,7 +21,7 @@ public class LibraryMemberFactory {
         
         manager.saveMembersToStorage(membersMap);
 
-        return "Library Member added successfully.";
+        return true;//"Library Member added successfully.";
     }
 
     public static LibraryMember findMemberById(int memberId) {

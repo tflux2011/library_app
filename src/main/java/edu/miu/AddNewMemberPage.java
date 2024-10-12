@@ -163,10 +163,8 @@ public class AddNewMemberPage {
                 return;
             }
 
-            String result = LibraryMemberFactory.addMember(firstName, lastName, phone, street, city, state, zip);
-            messageLabel.setText(result);
-
-            if (result.contains("successfully")) {
+            boolean result = LibraryMemberFactory.addMember(firstName, lastName, phone, street, city, state, zip);
+            if(result) {
                 firstNameField.setText("");
                 lastNameField.setText("");
                 phoneNumberField.setText("");
@@ -174,6 +172,9 @@ public class AddNewMemberPage {
                 cityField.setText("");
                 stateComboBox.setSelectedIndex(-1); // Reset dropdown
                 zipField.setText("");
+                messageLabel.setText("Member was created successfully.");
+            }else{
+                messageLabel.setText("Sorry, could not create member.");
             }
         });
     }

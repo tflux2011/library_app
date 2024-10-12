@@ -15,7 +15,7 @@ import edu.miu.Model.CheckoutRecord;
 
 
 public class CheckoutRecordFactory {
-    public static Boolean addCheckoutEntry(int memberId, String isbn) {
+    public static boolean addCheckoutEntry(int memberId, String isbn) {
         BookCopy bookCopy = BookFactory.checkoutBook(isbn);
     	StorageManager manager = new DataAccessFacade();
         Map<Integer, CheckoutRecord> recordsMap = manager.readCheckoutRecordsFromStorage();

@@ -46,20 +46,20 @@ public class BookFactory {
     	}
     }
 
-    public static String addBook(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {
+    public static boolean addBook(String isbn, String title, List<Author> authors, int maxCheckoutLength, int numOfCopies) {
     	StorageManager manager = new DataAccessFacade();
     	Map<String, Book> booksMap = manager.readBooksFromStorage();
         
         if (booksMap.containsKey(isbn)) {
         	addBookCopies(isbn, numOfCopies);
-        	return "Book with ISBN " + isbn + " has been updated with " + numOfCopies + " copies.";
+        	return false;//"Book with ISBN " + isbn + " has been updated with " + numOfCopies + " copies.";
         }
 
         Book newBook = new Book(isbn, title, authors, maxCheckoutLength, numOfCopies);
         booksMap.put(isbn, newBook);
         manager.saveBooksToStorage(booksMap);
 
-        return "New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
+        return true;//"New book with ISBN " + isbn + " added with " + numOfCopies + " copies.";
     }
     
     public static void addBookCopies(String isbn, int numOfCopies) {

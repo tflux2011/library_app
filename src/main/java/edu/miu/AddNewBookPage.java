@@ -170,8 +170,13 @@ public class AddNewBookPage {
                 int numOfCopies = Integer.parseInt(numOfCopiesField.getText().trim());
 
                 var res = BookFactory.addBook(isbn, title, listOfAuthors, maxCheckoutLength, numOfCopies);
-                messageLabel.setText(res);
-                messageLabel.setForeground(new Color(0, 128, 0)); // Green for success
+                if(res) {
+                    messageLabel.setText("Book was created successfully.");
+                    messageLabel.setForeground(new Color(0, 128, 0)); // Green for success
+                }else{
+                    messageLabel.setText("Book copy was updated successfully.");
+                    messageLabel.setForeground(new Color(0, 128, 0)); // Green for success
+                }
 
                 // Clear fields after submission
                 isbnField.setText("");
