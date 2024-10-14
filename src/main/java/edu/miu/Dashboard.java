@@ -27,7 +27,7 @@ public class Dashboard {
 
         // Left navigation panel (JList)
         List<MenuItem> menuItems = new ArrayList<>();
-
+        menuItems.add(new MenuItem("🛖 Home"));
         // Dynamic Menu based on roles
         if (roles.contains("ADMIN") || roles.contains("BOTH")) {
             menuItems.add(new MenuItem("📚 All Books"));
@@ -73,6 +73,9 @@ public class Dashboard {
         contentPanel.removeAll();  // Clear previous content
 
         switch (selectedMenu) {
+            case "🛖 Home":
+                showHomePage();
+                break;
             case "📚 All Books":
                 showViewBooksPage();
                 break;
@@ -109,6 +112,10 @@ public class Dashboard {
         contentPanel.repaint();
     }
 
+    private static void showHomePage(){
+        Homepage homepage = new Homepage();
+        updateRightPanel(homepage.getPanel());
+    }
     private static void showAddBookCopyPage(){
         ViewAddBookCopyPage viewAddBookCopyPage = new ViewAddBookCopyPage();
         updateRightPanel(viewAddBookCopyPage.getPanel());
